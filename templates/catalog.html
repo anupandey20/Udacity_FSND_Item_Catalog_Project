@@ -1,0 +1,62 @@
+{% extends "layout.html" %}
+{% block title %}HOME{% endblock %}
+
+{% block content %}
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1> Welcome to the application for Item Catalog!!!</h1>
+			<p> You can view the latest items for specific categories below. Click on a specific category to view, add, or delete items.</p>
+		</div>
+	</div>
+</div>	
+{% if 'username' in session %}
+<div class="row">
+	<div class="col-md-12">
+		<div class="text-right">
+		  <a href="{{ url_for('addCategory') }}"><button class="btn btn-primary"><i class="fas fa-plus text-and-icon"></i>Add Category</button></a>
+          <a href="{{ url_for('addItem') }}"><button class="btn btn-primary"><i class="fas fa-plus text-and-icon"></i>Add Item</button></a>
+        </div>
+	</div>
+</div>
+{% endif %}
+
+<div class = 'flash'>
+              {% with messages = get_flashed_messages() %}
+      {% if messages %}
+
+        <ul>
+        {% for message in messages %}
+            <li><strong>{{message}}</strong></li>
+        {% endfor %}
+        </ul>
+        {% endif %}
+    {% endwith %}
+
+</div>
+
+
+
+<div class="container">
+	<div class="row">
+		<div class="col-md-4">
+			<h2> Categories</h2><hr>
+            {% for category in categories %}
+             <a href="{{url_for('showItems', category_id = category.id)}}"><p>{{category.name}}</p></a>
+            {% endfor %}
+        </div>
+
+        <div class="offset-md-1"></div>
+
+        <div class="col-md-8">
+        	<h2>Latest Items</h2><hr>
+            {% for i in items %}
+             <a href="{{url_for('showItemById', item_id = i.id)}}"><p>{{i.name}}</p></a>
+            {% endfor %}
+
+   		</div>
+   	</div>
+</div>
+	
+{% endblock %}
